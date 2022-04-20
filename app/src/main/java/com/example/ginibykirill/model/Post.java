@@ -2,6 +2,8 @@ package com.example.ginibykirill.model;
 
 import android.util.Log;
 
+import java.io.Serializable;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +12,7 @@ import java.util.Objects;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class Post {
+public class Post  {
     private List <Object> numbers = new ArrayList<>();
 
     public Post(List<Object> numbers) {
@@ -20,34 +22,13 @@ public class Post {
 
     }
 
-    public Map<Integer,Boolean> returnNumbersList(){
+    public int[] returnNumbersList(){
       // true - red, false - orange
-      Map<Integer,Boolean> resultList = new TreeMap<Integer, Boolean>() {
-      };
+      int[] resultList = new int[20];
 
-      int currentVal;
-
-      for(Object num : numbers){
+      for(int i = 0; i<resultList.length; i++){
         //num = "numbers":10.0
-        Log.i("App121212", num.toString().substring(8,num.toString().length()-3));
-        currentVal = Integer.parseInt(num.toString().substring(8,num.toString().length()-3));
-        resultList.put(currentVal, false);
-        Log.i("App121212", currentVal +"");
-
-
-      }
-      int currentKey;
-      boolean currentValue;
-      for (Map.Entry<Integer, Boolean> entry : resultList.entrySet()){
-          currentKey = entry.getKey();
-          if(currentKey==0){
-              resultList.put(currentKey, true);
-          }
-          else {
-              currentValue = resultList.containsKey(-1 * currentKey);
-              resultList.put(currentKey, currentValue);
-//              resultList.put(-1 * currentKey, currentValue);
-          }
+        resultList[i]= Integer.parseInt(numbers.get(i).toString().substring(8,numbers.get(i).toString().length()-3));;
       }
       return  resultList;
     }
