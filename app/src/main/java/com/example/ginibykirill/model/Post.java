@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class Post {
     private List <Object> numbers = new ArrayList<>();
@@ -20,7 +22,8 @@ public class Post {
 
     public Map<Integer,Boolean> returnNumbersList(){
       // true - red, false - orange
-      Map<Integer,Boolean> resultList = new HashMap<>();
+      Map<Integer,Boolean> resultList = new TreeMap<Integer, Boolean>() {
+      };
 
       int currentVal;
 
