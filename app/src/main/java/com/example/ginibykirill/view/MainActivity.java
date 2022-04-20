@@ -35,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
     LinearLayoutManager layoutManager;
     PostsAdapter adapter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fetchPosts();
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.recyclerView);
 
@@ -46,37 +46,21 @@ public class MainActivity extends AppCompatActivity {
         adapter = new PostsAdapter(numbersList);
         recyclerView.setAdapter(adapter);
 
-        fetchPosts();
-
-
-
-//            TextView textView = new TextView(this);
-//            textView.setText("success");
-//            recyclerView.addView(textView);
-//            setContentView(recyclerView);
-
-
     }
 
     public void giveIntent(){
         Intent showActivity = new Intent(MainActivity.this, ShowActivity.class);
         showActivity.putExtra("data", numbersList.returnNumbersList());
         startActivity(showActivity);
-
-
     }
 
-
     private void fetchPosts() {
-
-
         RetrofitClient.getRetrofitClient().getPost().enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
                 if(response.isSuccessful() && response.body() !=null){
                     numbersList.copyNumbers(response.body());
                     adapter.notifyDataSetChanged();
-                    numbersList.returnNumbersList();
                     giveIntent();
                 }
             }
@@ -85,8 +69,5 @@ public class MainActivity extends AppCompatActivity {
             Log.i("App121212", t.getMessage());
             }
         });
-
     }
-
-
 }

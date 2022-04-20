@@ -18,14 +18,12 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class ShowActivity extends AppCompatActivity {
-    Post numbersList = new Post();
     int[] arrayFromPost;
     Map<Integer,Boolean> resultList = new TreeMap<Integer,Boolean>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_show);
         takeIntent();
         checkColorOfNumbers(arrayFromPost);
         createActivity();
@@ -41,23 +39,16 @@ public class ShowActivity extends AppCompatActivity {
 
             for (Map.Entry<Integer, Boolean> entry : resultList.entrySet()){
                 currentKey = entry.getKey();
-                if(currentKey==0){
+                if(currentKey==0 || resultList.containsKey(-1 * currentKey)){
                     resultList.put(currentKey, true);
                 }
-                else {
-                    currentValue = resultList.containsKey(-1 * currentKey);
-                    resultList.put(currentKey, currentValue);
-                }
-        }
-        Log.i("AppiGini", resultList.toString());
+            }
         return  resultList;
     }
-
 
     public void takeIntent(){
         Bundle extras = getIntent().getExtras();
         arrayFromPost = extras.getIntArray("data");
-
     }
 
     public void createActivity(){
@@ -65,17 +56,16 @@ public class ShowActivity extends AppCompatActivity {
         TableLayout tableLayout = new TableLayout(this);
         TableRow tableRow1 = new TableRow(this);
         for (Map.Entry<Integer, Boolean> entry : resultList.entrySet()) {
-
-
-//            for (int i = 0; i < sortNumbers.size(); i++) {
             if (i % 3 == 0)
                 tableRow1 = new TableRow(this);
 
             TextView textView1 = new TextView(this);
             textView1.setText(entry.getKey().toString());
+            textView1.setHeight(100);
                 if(entry.getValue()){
                     textView1.setBackgroundColor(Color.rgb(255, 0, 0));
-                    textView1.set
+                    tableRow1.setGravity(Gravity.CENTER_HORIZONTAL);
+                    textView1.setHeight(150);
                 }
                 else {
                     textView1.setBackgroundColor(Color.rgb(255, 165, 0));
@@ -96,16 +86,12 @@ public class ShowActivity extends AppCompatActivity {
             }
             tableRow1.addView(textView1, new TableRow.LayoutParams(
                     TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1f));
-
-            Log.i("AppiGini", tableRow1.toString());
             if (i % 3 == 0) {
                 tableLayout.setGravity(Gravity.FILL_HORIZONTAL);
                 tableLayout.addView(tableRow1, TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);
             }
             i++;
-
         }
         setContentView(tableLayout);
     }
-
 }
